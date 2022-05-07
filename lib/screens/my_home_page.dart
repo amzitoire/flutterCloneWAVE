@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterclonewave/models/transaction.dart';
+import 'package:flutterclonewave/screens/scan_page.dart';
 import 'package:flutterclonewave/screens/settings_page.dart';
 import 'package:flutterclonewave/utils/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
+import '../models/transaction.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -15,16 +19,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool isVisible = false;
-  List<Transaction> listTransaction = [
-    Transaction(
-        type: "Retrait", date: DateTime.now().toString(), montant: -1000),
-    Transaction(type: "Dépot", date: DateTime.now().toString(), montant: 10000),
-    Transaction(type: "Dépot", date: DateTime.now().toString(), montant: 10000),
-    Transaction(
-        type: "Retrait", date: DateTime.now().toString(), montant: -10000),
-    Transaction(
-        type: "Retrait", date: DateTime.now().toString(), montant: -10000),
-  ];
+  final dateFormat = DateFormat('dd MM yyyy à hh:mm');
+  List<Transaction> listTransaction = [];
+
+  @override
+  void initState(){
+    super.initState();
+        listTransaction.addAll([
+          Transaction(
+            type: "Retrait", date: dateFormat.format(DateTime.now().toLocal()), montant: -1000),
+          Transaction(type: "Dépot", date: dateFormat.format(DateTime.now().toLocal()), montant: 10000),
+          Transaction(type: "Dépot", date: dateFormat.format(DateTime.now().toLocal()), montant: 10000),
+          Transaction(
+              type: "Retrait", date: dateFormat.format(DateTime.now().toLocal()), montant: -10000),
+          Transaction(
+              type: "Retrait", date: dateFormat.format(DateTime.now().toLocal()), montant: -10000),
+        ]);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 RichText(
                   text: TextSpan(
-                    text: isVisible ? "100.000" : "•••••••",
+                    text: isVisible ? "536.430" : "•••••••",
                     style: GoogleFonts.inter(
                         fontSize: 28, fontWeight: FontWeight.bold),
                     children: [
@@ -154,7 +166,8 @@ class _MyHomePageState extends State<MyHomePage> {
   cardWidget() {
     return GestureDetector(
       onTap: () {
-        print('Tap');
+       Navigator.push(context,MaterialPageRoute(builder: (context) {
+         return const ScanPage();}));
       },
       child: Container(
           height: 220,
